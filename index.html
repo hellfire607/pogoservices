@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PoGo Services</title>
+
+<style>
+  :root{
+    --topbar:#000000;
+    --accent:#4a9ca1;
+    --text:#222;
+    --menu-bg:#4a9ca1;
+    --shadow:0 10px 25px rgba(0,0,0,.15);
+    --radius:14px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{
+    font-family:Inter, Arial, sans-serif;
+    color:var(--text);
+    background:#ffffff;
+    line-height:1.4;
+  }
+
+  /* Top bar */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px 16px;
+    background:var(--topbar);
+    position:sticky;
+    top:0;
+    z-index:50;
+    position:relative;
+  }
+
+  .left-controls{
+    position:absolute;
+    left:16px;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;align-items:center;gap:10px;
+  }
+
+  .contact-wrapper{
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+  }
+
+  /* Logo */
+  .logo{
+    height:42px;
+  }
+
+  .hamburger{
+    width:42px;height:42px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;border:1px solid rgba(255,255,255,0.35);
+    background:#fff;
+  }
+  .hamburger .bar{
+    display:block;width:20px;height:2px;background:#4a9ca1;
+    border-radius:3px;transition:.25s;
+  }
+  .hamburger .bar + .bar{margin-top:6px}
+  .hamburger.open .bar:first-child{transform:translateY(4px) rotate(45deg)}
+  .hamburger.open .bar:last-child{transform:translateY(-4px) rotate(-45deg)}
+
+  .contact-btn{
+    background:#fff;
+    color:var(--topbar);
+    padding:9px 14px;
+    border-radius:8px;
+    font-weight:600;
+    text-decoration:none;
+  }
+
+  /* Popup Menu */
+  .menu-popup{
+    position:fixed;
+    left:14px;top:62px;
+    background:#ffffff;
+    border-radius:12px;
+    padding:10px;
+    width:170px;
+    box-shadow:var(--shadow);
+    transform:scale(.95);
+    opacity:0;pointer-events:none;
+    transition:.18s;
+    z-index:60;
+  }
+  .menu-popup.open{
+    transform:scale(1);
+    opacity:1;pointer-events:auto;
+  }
+  .menu-popup a{
+    display:block;
+    padding:10px;
+    text-decoration:none;
+    color:var(--accent);
+    font-weight:600;
+    border-radius:8px;
+  }
+  .menu-popup a:hover{
+    background:#f3f8f8;
+  }
+
+  /* Hero */
+  .hero{
+    text-align:center;
+    padding:60px 22px;
+  }
+  .hero h1{
+    font-size:34px;
+    font-weight:800;
+    color:var(--accent);
+    margin-bottom:12px;
+  }
+  .hero p{
+    max-width:600px;margin:auto;
+    margin-bottom:24px;
+    color:#333;
+  }
+  .btn{
+    padding:12px 18px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:700;
+    display:inline-block;
+    margin:6px;
+    border:2px solid var(--accent);
+  }
+  .btn-primary{
+    background:var(--accent);
+    color:#fff;
+  }
+  .btn-ghost{
+    background:#fff;
+    color:var(--accent);
+  }
+
+
+/* -----------------------------
+   SERVICES SECTION (WITH MULTIPLE ANIMATIONS)
+------------------------------ */
+
+  .service-wrapper{
+      display:flex;
+      flex-direction:row;
+      gap:40px;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:stretch; /* Ensures all cards have the same height */
+      margin-top:40px;
+      margin-bottom:50px;
+  }
+
+  /* Blur Glass Cards with Multiple Animations */
+  .card{
+      flex: 0 0 250px; /* Fixed width for all cards */
+      padding:20px 15px;
+      border-radius:14px;
+
+      background:rgba(75, 183, 245, 0.25);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+
+      border:2px solid #4a9ca1;
+      box-shadow:
+          0 0 6px rgba(74,156,161,0.6),
+          0 0 12px rgba(74,156,161,0.35);
+
+      text-align:center;
+      color:#000;
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth transitions */
+
+      /* Scroll Reveal: Initially hidden */
+      opacity: 0;
+      transform: translateY(50px) scale(0.9);
+
+      /* Loop Animation: Continuous subtle floating */
+      animation: floatLoop 4s ease-in-out infinite, glassShine 3s ease-in-out infinite;
+  }
+
+  /* Keyframes for continuous floating loop */
+  @keyframes floatLoop {
+      0%, 100% {
+          transform: translateY(0) scale(1);
+      }
+      50% {
+          transform: translateY(-10px) scale(1.02);
+      }
+  }
+
+  /* Keyframes for glass shine effect */
+  @keyframes glassShine {
+      0%, 100% {
+          background-position: -200% 0;
+      }
+      50% {
+          background-position: 200% 0;
+      }
+  }
+
+  /* Add shine overlay for glass effect */
+  .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      border-radius: 14px;
+      animation: glassShine 3s ease-in-out infinite;
+      pointer-events: none;
+  }
+
+  /* Hover Bounce Animation */
+  .card:hover {
+      animation: bounceHover 0.6s ease-out;
+      box-shadow:
+          0 0 20px rgba(74,156,161,1),
+          0 0 40px rgba(74,156,161,0.7);
+      transform: translateY(-5px) scale(1.05);
+  }
+
+  /* Keyframes for hover bounce */
+  @keyframes bounceHover {
+      0% {
+          transform: translateY(0) scale(1);
+      }
+      25% {
+          transform: translateY(-10px) scale(1.05);
+      }
+      50% {
+          transform: translateY(-15px) scale(1.1);
+      }
+      75% {
+          transform: translateY(-10px) scale(1.05);
+      }
+      100% {
+          transform: translateY(-5px) scale(1.05);
+      }
+  }
+
+  .card h2{
+      font-size:22px;
+      font-weight:700;
+      margin-bottom:12px;
+      transition: color 0.3s ease;
+  }
+
+  .card:hover h2 {
+      color: #2e7d87;
+  }
+
+  .card p{
+      font-size:16px;
+      margin:8px 0;
+      transition: transform 0.3s ease;
+  }
+
+  .card:hover p {
+      transform: scale(1.02);
+  }
+
+  /* Scroll Reveal Trigger */
+  .card.revealed {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      animation: floatLoop 4s ease-in-out infinite, glassShine 3s ease-in-out infinite;
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- TOP BAR WITH CENTER LOGO -->
+  <div class="topbar">
+
+    <div class="left-controls">
+      <button id="menuBtn" class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+
+    <img src="logo.jpg.jpg" class="logo" alt="Logo">
+
+    <div class="contact-wrapper">
+      <a href="https://wa.me/918521854455" class="contact-btn">Contact</a>
+    </div>
+
+  </div>
+
+  <nav id="menuPopup" class="menu-popup">
+    <a href="#services">Services</a>
+    <a href="#about">About Us</a>
+    <a href="#proof">Proof</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="hero">
+    <p style="font-size:20px;font-family:bold;">Fast Service. Fair Prices. Real Results.</p>
+    <h1>PoGo Services</h1>
+    <p>Fast and reliable Pokémon GO service community — raids, leveling, shundo hunts, Pokécoins and more!</p>
+
+    <a class="btn btn-primary" href="https://discord.gg/BnXumb7Yn4">Discord</a>
+    <a class="btn btn-ghost" href="#services">Explore</a>
+  </div>
+
+  <!-- Center Image -->
+  <!-- ==== IMAGE SLIDER START ==== -->
+<style>
+  .pogo-carousel-wrapper * { box-sizing: border-box; }
+
+  .pogo-carousel-wrapper {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 12px;
+    background: transparent;
+  }
+
+  .pogo-track {
+    display: flex;
+    gap: 12px;
+    width: calc(6 * 100%);
+    padding: 12px;
+    animation: pogoSlide 18s linear infinite;
+  }
+
+  .pogo-carousel-wrapper:hover .pogo-track {
+    animation-play-state: paused;
+  }
+
+  .pogo-slide {
+    flex: 0 0 calc((100% - (12px * 5)) / 6);
+    height: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .pogo-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @keyframes pogoSlide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-1 * (100% - (100% / 6)))); }
+  }
+
+  /* Responsive */
+  @media (max-width: 800px) {
+    .pogo-slide {
+      flex: 0 0 calc((100% - (8px * 5)) / 2);
+      height: 160px;
+    }
+    .pogo-track {
+      width: calc(6 * 50%);
+      gap: 8px;
+      padding: 8px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .pogo-slide {
+      flex: 0 0 100%;
+      height: 140px;
+    }
+    .pogo-track {
+      width: calc(6 * 100%);
+      gap: 6px;
+      padding: 6px;
+    }
+  }
+</style>
+
+<div class="pogo-carousel-wrapper">
+  <div class="pogo-track">
+    <div class="pogo-slide"><img src="i1.jpg"></div>
+    <div class="pogo-slide"><img src="i2.png"></div>
+    <div class="pogo-slide"><img src="i3.jpg"></div>
+    <div class="pogo-slide"><img src="i4.jpg"></div>
+    <div class="pogo-slide"><img src="l5.jpg"></div>
+    <div class="pogo-slide"><img src="i6.jpg"></div>
+  </div>
+</div>
+<!-- ==== IMAGE SLIDER END ==== -->
+
+
+<!-- SERVICES SECTION -->
+<h1 style="text-align:center; margin-top:40px;background-color: #4a9ca1;">Our Services</h1>
+
+<div class="service-wrapper" id="services">
+
+    <div class="card">
+        <h2>Premium Accounts</h2>
+        <p>Ready to play Pokémon GO accounts.</p>
+        <p><b>Starting from $30</b></p>
+    </div>
+
+    <div class="card">
+        <h2>Boosting & Raids</h2>
+        <p>Level up, shiny catches, raids & more.</p>
+        <p><b>Book any event services</b></p>
+    </div>
+
+    <div class="card">
+        <h2>Stardust Farming</h2>
+        <p>1 Million Stardust</p>
+        <p><b>Starting from $9.99</b></p>
+    </div>
+
+</div>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const popup = document.getElementById('menuPopup');
+
+  function toggleMenu(open){
+    menuBtn.classList.toggle('open', open);
+    popup.classList.toggle('open', open);
+  }
+
+  menuBtn.addEventListener('click', ()=>{
+    toggleMenu(!menuBtn.classList.contains('open'));
+  });
+
+  document.addEventListener('click', (e)=>{
+    if(!popup.contains(e.target) && !menuBtn.contains(e.target)){
+      toggleMenu(false);
+    }
+  });
+
+  // Scroll Reveal Animation using Intersection Observer
+  const cards = document.querySelectorAll('.card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+      }
+    });
+  }, { threshold: 0.5 });
+
+  cards.forEach(card => observer.observe(card));
+</script>
+
+</body>
+</html>
+
+<!-- ===========================
+       PROOF SECTION (ADDED)
+=========================== -->
+<section id="proof" style="padding:40px 0; background:#f3f8f9; margin-top:40px;">
+
+    <div class="proof-header" style="text-align:center;">
+        <h1 style="font-size:36px; font-weight:800; color:#4a9ca1;">Customer Proof</h1>
+        <p style="font-size:18px; max-width:600px; margin:auto; margin-top:10px; color:#333;">
+            Real screenshots from satisfied customers — trades, raids, level ups, shiny catches and more!
+        </p>
+    </div>
+
+    <div class="proof-grid" style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+        gap:30px;
+        max-width:1100px;
+        margin:40px auto;
+        padding:20px;
+    ">
+
+        <!-- Proof 1 -->
+        <div class="proof-card" style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            backdrop-filter:blur(12px);
+            border-radius:14px;
+            padding:14px;
+            transition:0.3s ease;
+            box-shadow:0 0 4px rgba(74,156,161,0.4), 0 0 8px rgba(74,156,161,0.2);
+        ">
+            <img src="shiny.webp" style="width:100%; border-radius:12px; border:1px solid #4a9ca1;">
+            <div class="proof-caption" style="text-align:center; font-weight:600; font-size:16px; padding:10px 2px;">Shiny Catch Proof</div>
+        </div>
+
+        <!-- Proof 2 -->
+        <div class="proof-card" style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            backdrop-filter:blur(12px);
+            border-radius:14px;
+            padding:14px;
+            transition:0.3s ease;
+            box-shadow:0 0 4px rgba(74,156,161,0.4), 0 0 8px rgba(74,156,161,0.2);
+        ">
+            <img src="level.webp" style="width:100%; border-radius:12px; border:1px solid #4a9ca1;">
+            <div class="proof-caption" style="text-align:center; font-weight:600; font-size:16px; padding:10px 2px;">Level 40 Boost Completed</div>
+        </div>
+
+        <!-- Proof 3 -->
+        <div class="proof-card" style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            backdrop-filter:blur(12px);
+            border-radius:14px;
+            padding:14px;
+            transition:0.3s ease;
+            box-shadow:0 0 4px rgba(74,156,161,0.4), 0 0 8px rgba(74,156,161,0.2);
+        ">
+            <img src="sundo.jpg" style="width:100%; border-radius:12px; border:1px solid #4a9ca1;">
+            <div class="proof-caption" style="text-align:center; font-weight:600; font-size:16px; padding:10px 2px;">Shundo Success</div>
+        </div>
+
+        <!-- Proof 4 -->
+        <div class="proof-card" style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            backdrop-filter:blur(12px);
+            border-radius:14px;
+            padding:14px;
+            transition:0.3s ease;
+            box-shadow:0 0 4px rgba(74,156,161,0.4), 0 0 8px rgba(74,156,161,0.2);
+        ">
+            <img src="read.jpg" style="width:100%; border-radius:12px; border:1px solid #4a9ca1;">
+            <div class="proof-caption" style="text-align:center; font-weight:600; font-size:16px; padding:10px 2px;">Raid Service Proof</div>
+        </div>
+
+        <!-- Proof 5 -->
+        <div class="proof-card" style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            backdrop-filter:blur(12px);
+            border-radius:14px;
+            padding:14px;
+            transition:0.3s ease;
+            box-shadow:0 0 4px rgba(74,156,161,0.4), 0 0 8px rgba(74,156,161,0.2);
+        ">
+            <img src="stardust.webp" style="width:100%; border-radius:12px; border:1px solid #4a9ca1;">
+            <div class="proof-caption" style="text-align:center; font-weight:600; font-size:16px; padding:10px 2px;">Stardust Order Delivered</div>
+        </div>
+
+        <!-- Proof 6 -->
+        <div class="proof-card" style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            backdrop-filter:blur(12px);
+            border-radius:14px;
+            padding:14px;
+            transition:0.3s ease;
+            box-shadow:0 0 4px rgba(74,156,161,0.4), 0 0 8px rgba(74,156,161,0.2);
+        ">
+            <img src="iv.webp" style="width:100%; border-radius:12px; border:1px solid #4a9ca1;">
+            <div class="proof-caption" style="text-align:center; font-weight:600; font-size:16px; padding:10px 2px;">IV Boost Order</div>
+        </div>
+
+    </div>
+
+</section>
+<!-- ===========================
+        WHAT WE DO SECTION WITH HOVER GLOW
+=========================== -->
+<section id="what-we-do" style="padding:60px 20px; background:#f3f8f9;">
+
+    <!-- Header -->
+    <div style="text-align:center; max-width:700px; margin:auto;">
+        <h1 style="font-size:36px; font-weight:800; color:#4a9ca1;">What We Do</h1>
+        <p style="font-size:18px; color:#333; margin-top:10px;">
+            We provide professional Pokémon GO services to help you level up, farm resources, and enjoy the game to its fullest.
+        </p>
+    </div>
+
+    <!-- Cards Grid -->
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+        gap:30px;
+        max-width:1100px;
+        margin:40px auto;
+    ">
+
+        <!-- Card Template -->
+        <div class="what-card">
+            <h3>Level Up</h3>
+            <p>Boost your account quickly and safely to reach higher levels in Pokémon GO.</p>
+        </div>
+
+        <div class="what-card">
+            <h3>Raids & Battles</h3>
+            <p>Participate in high-level raids and battles with our professional team.</p>
+        </div>
+
+        <div class="what-card">
+            <h3>Stardust Farming</h3>
+            <p>Get huge amounts of Stardust for your Pokémon to make them stronger.</p>
+        </div>
+
+        <div class="what-card">
+            <h3>Shiny Hunts</h3>
+            <p>Complete shiny hunts and get rare Pokémon with guaranteed results.</p>
+        </div>
+
+        <div class="what-card">
+            <h3>Premium Accounts</h3>
+            <p>Buy ready-to-play accounts safely with high-level Pokémon and resources.</p>
+        </div>
+
+        <div class="what-card">
+            <h3>Account Boosting</h3>
+            <p>Fast and secure account boosting for levels, IVs, and achievements.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===========================
+        STYLES
+=========================== -->
+<style>
+    .what-card{
+        background: rgba(74,156,161,0.18);
+        border: 2px solid rgba(74,156,161,0.6);
+        backdrop-filter: blur(14px);
+        border-radius: 16px;
+        padding: 30px 20px;
+        text-align: center;
+        transition: 0.3s ease;
+        box-shadow: 0 0 6px rgba(74,156,161,0.35);
+    }
+
+    .what-card img{
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 15px;
+        transition: 0.3s;
+    }
+
+    .what-card h3{
+        color: #4a9ca1;
+        font-size: 22px;
+        margin-bottom: 10px;
+        transition: 0.3s;
+    }
+
+    .what-card p{
+        color: #222;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    /* Hover Glow & Lift Effect */
+    .what-card:hover{
+        transform: translateY(-5px);
+        box-shadow:
+            0 0 12px rgba(74,156,161,0.6),
+            0 0 24px rgba(74,156,161,0.35);
+    }
+
+    .what-card:hover img{
+        transform: scale(1.1);
+    }
+</style>
+
+<!-- ===========================
+        REVIEW SECTION WITH 6 REVIEWS (2 IMAGES EACH)
+=========================== -->
+<section id="reviews" style="padding:50px 20px; background:#ffffff;">
+
+    <!-- Header -->
+    <div style="text-align:center; max-width:700px; margin:auto;">
+        <h1 style="font-size:36px; font-weight:800; color:#4a9ca1;">Customer Reviews</h1>
+        <p style="font-size:18px; color:#333; margin-top:10px;">
+            Real feedback from our satisfied Pokémon GO players worldwide.
+        </p>
+    </div>
+
+    <!-- Review Grid -->
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+        gap:30px;
+        max-width:1100px;
+        margin:40px auto;
+    ">
+
+        <!-- Review Card 1 -->
+        <div style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            border-radius:16px;
+            padding:22px;
+            backdrop-filter:blur(14px);
+            box-shadow:0 0 6px rgba(74,156,161,0.35);
+            text-align:center;
+        ">
+            <div style="display:flex; justify-content:center; gap:12px; margin-bottom:12px;">
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review1a.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review1b.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            </div>
+            <h3 style="color:#4a9ca1; font-size:20px; margin-bottom:10px;">★ ★ ★ ★ ★</h3>
+            <p style="color:#222; font-size:16px; line-height:1.5;">
+                Amazing service! Got my Shundo within 24 hours. Super friendly and fast.
+            </p>
+            <p style="margin-top:14px; font-weight:700; color:#000;">— Lucas, USA</p>
+        </div>
+
+        <!-- Review Card 2 -->
+        <div style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            border-radius:16px;
+            padding:22px;
+            backdrop-filter:blur(14px);
+            box-shadow:0 0 6px rgba(74,156,161,0.35);
+            text-align:center;
+        ">
+            <div style="display:flex; justify-content:center; gap:12px; margin-bottom:12px;">
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review2a.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review2b.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            </div>
+            <h3 style="color:#4a9ca1; font-size:20px; margin-bottom:10px;">★ ★ ★ ★ ★</h3>
+            <p style="color:#222; font-size:16px; line-height:1.5;">
+                Best raid hosting team I've used. Completed all raids in minutes.
+            </p>
+            <p style="margin-top:14px; font-weight:700; color:#000;">— Priya, India</p>
+        </div>
+
+        <!-- Review Card 3 -->
+        <div style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            border-radius:16px;
+            padding:22px;
+            backdrop-filter:blur(14px);
+            box-shadow:0 0 6px rgba(74,156,161,0.35);
+            text-align:center;
+        ">
+            <div style="display:flex; justify-content:center; gap:12px; margin-bottom:12px;">
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review3a.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review3b.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            </div>
+            <h3 style="color:#4a9ca1; font-size:20px; margin-bottom:10px;">★ ★ ★ ★ ★</h3>
+            <p style="color:#222; font-size:16px; line-height:1.5;">
+                My account hit level 50 so fast! Trusted and highly recommended.
+            </p>
+            <p style="margin-top:14px; font-weight:700; color:#000;">— Daniel, UK</p>
+        </div>
+
+        <!-- Review Card 4 -->
+        <div style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            border-radius:16px;
+            padding:22px;
+            backdrop-filter:blur(14px);
+            box-shadow:0 0 6px rgba(74,156,161,0.35);
+            text-align:center;
+        ">
+            <div style="display:flex; justify-content:center; gap:12px; margin-bottom:12px;">
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review4a.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review4b.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            </div>
+            <h3 style="color:#4a9ca1; font-size:20px; margin-bottom:10px;">★ ★ ★ ★ ★</h3>
+            <p style="color:#222; font-size:16px; line-height:1.5;">
+                Stardust farming was super smooth. Delivered exactly as promised.
+            </p>
+            <p style="margin-top:14px; font-weight:700; color:#000;">— Mei, Singapore</p>
+        </div>
+
+        <!-- Review Card 5 -->
+        <div style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            border-radius:16px;
+            padding:22px;
+            backdrop-filter:blur(14px);
+            box-shadow:0 0 6px rgba(74,156,161,0.35);
+            text-align:center;
+        ">
+            <div style="display:flex; justify-content:center; gap:12px; margin-bottom:12px;">
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review5a.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review5b.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            </div>
+            <h3 style="color:#4a9ca1; font-size:20px; margin-bottom:10px;">★ ★ ★ ★ ★</h3>
+            <p style="color:#222; font-size:16px; line-height:1.5;">
+                Trusted seller! Bought 3 premium accounts. All working perfectly.
+            </p>
+            <p style="margin-top:14px; font-weight:700; color:#000;">— Marco, Brazil</p>
+        </div>
+
+        <!-- Review Card 6 -->
+        <div style="
+            background:rgba(74,156,161,0.18);
+            border:2px solid rgba(74,156,161,0.6);
+            border-radius:16px;
+            padding:22px;
+            backdrop-filter:blur(14px);
+            box-shadow:0 0 6px rgba(74,156,161,0.35);
+            text-align:center;
+        ">
+            <div style="display:flex; justify-content:center; gap:12px; margin-bottom:12px;">
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review6a.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div style="width:70px; height:140px; overflow:hidden; border-radius:20px; border:2px solid #4a9ca1;">
+                    <img src="review6b.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            </div>
+            <h3 style="color:#4a9ca1; font-size:20px; margin-bottom:10px;">★ ★ ★ ★ ★</h3>
+            <p style="color:#222; font-size:16px; line-height:1.5;">
+                Super smooth communication. 10/10 service. Will order again!
+            </p>
+            <p style="margin-top:14px; font-weight:700; color:#000;">— Sofia, Netherlands</p>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer style="
+    background:#4a9ca1;
+    color:#fff;
+    padding:60px 20px 20px;
+    margin-top:60px;
+    font-family: 'Georgia', serif;
+">
+
+  <div style="
+      max-width:1200px;
+      margin:auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:60px;
+      justify-content:space-between;
+  ">
+
+    <!-- Discord Column -->
+    <div style="flex:1; min-width:250px;">
+      <h2 style="font-size:32px; margin-bottom:20px;">Discord</h2>
+      <p style="line-height:1.6; font-size:16px;">
+        Our customers say it best.<br>
+        Join our Discord to see real<br>
+        reviews, results, and<br>
+        community feedback.
+      </p>
+
+      <a href="https://discord.gg/BnXumb7Yn4"
+        style="
+          display:inline-block;
+          margin-top:20px;
+          padding:12px 24px;
+          background:#f7d469;
+          color:#000;
+          font-weight:600;
+          border-radius:4px;
+          text-decoration:none;
+        ">
+        Discord
+      </a>
+    </div>
+
+    <!-- Quick Links -->
+    <div style="flex:1; min-width:250px;">
+      <h2 style="font-size:32px; margin-bottom:20px;">Quick<br>Links</h2>
+
+      <ul style="list-style:none; padding:0; margin:0; font-size:17px;">
+        <li style="margin-bottom:10px;"><a href="#services" style="color:white; text-decoration:none;">⚫ SERVICES</a></li>
+        <li style="margin-bottom:10px;"><a href="#reviews" style="color:white; text-decoration:none;">⚫ REVIEWS</a></li>
+        <li style="margin-bottom:10px;"><a href="#info" style="color:white; text-decoration:none;">⚫ INFO</a></li>
+        <li style="margin-bottom:10px;"><a href="#faq" style="color:white; text-decoration:none;">⚫ FAQ</a></li>
+        <li style="margin-bottom:10px;"><a href="#ban" style="color:white; text-decoration:none;">⚫ BAN</a></li>
+        <li style="margin-bottom:10px;"><a href="#appeal" style="color:white; text-decoration:none;">⚫ APPEAL</a></li>
+      </ul>
+    </div>
+
+    <!-- About Us -->
+    <div style="flex:1; min-width:250px;">
+      <h2 style="font-size:32px; margin-bottom:20px;">About Us</h2>
+
+      <p style="font-size:17px; margin-bottom:6px;">
+        <b>Info:</b>
+      </p>
+      <p style="font-size:16px; margin-bottom:10px;">
+        Netherlands<br>
+        KVK 95110321
+      </p>
+
+      <p style="font-size:17px; margin-bottom:6px;">
+        <b>Contact:</b>
+      </p>
+      <p style="font-size:16px;">
+        <a href="#discord" style="color:#fff; text-decoration:underline;">Discord</a><br>
+        <a href="#contact" style="color:#fff; text-decoration:underline;">Email</a>
+      </p>
+    </div>
+
+  </div>
+
+  <hr style="border:0; border-top:1px solid #223044; margin:40px 0;">
+
+  <!-- Bottom Bar -->
+  <div style="text-align:center; font-size:15px; line-height:1.6;">
+    <p>
+      © 2025 Pogo Services. All rights reserved.  
+      <a href="#contact" style="color:#fff; text-decoration:underline;">Contact Us</a>  
+      <a href="#privacy" style="color:#fff; text-decoration:underline;">Privacy Policy</a>
+    </p>
+
+    <p style="margin-top:10px;">
+      Powered by: <a href="#services" style="color:#f7d469; text-decoration:underline;">PoGo Services</a>
+    </p>
+
+    <!-- Social Icons -->
+    <div style="margin-top:20px; font-size:26px;">
+      <a href="#" style="margin:0 10px; color:#f7d469;">●</a>
+      <a href="#" style="margin:0 10px; color:#f7d469;">●</a>
+      <a href="#" style="margin:0 10px; color:#f7d469;">●</a>
+      <a href="#" style="margin:0 10px; color:#f7d469;">●</a>
+      <a href="#" style="margin:0 10px; color:#f7d469;">●</a>
+    </div>
+  </div>
+
+</footer>
+
