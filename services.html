@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PoGo Services — All Features</title>
+<link rel="icon" type="image/webp" href="logo.jpg.webp">
+
+
+<!-- ====== Styles (all self-contained) ====== -->
+<style>
+  :root{
+    --brand: #4a9ca1;
+    --bg: #eaf9f8;
+    --card-bg: rgba(255,255,255,0.85);
+    --glass: rgba(74,156,161,0.12);
+    --text: #0f1720;
+    --muted: #224;
+    --max-width: 1100px;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter, system-ui, Arial; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+  .container{max-width:var(--max-width); margin:0 auto; padding:28px;}
+
+  /* Header / Hero */
+  header{padding:18px 0; display:flex; align-items:center; justify-content:space-between; gap:16px;}
+  .logo{font-weight:800; font-size:20px; color:var(--brand)}
+  .hero{display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; padding:36px 8px;}
+  .eyebrow{color:#234; font-weight:600}
+  .hero h1{font-size:36px; margin:0; color:#062126}
+  .lead{max-width:820px; color:#113; font-size:16px}
+  .cta{display:inline-block;background:var(--brand); color:#fff; padding:12px 18px; border-radius:10px; text-decoration:none; font-weight:700}
+
+  /* Text section (the "only text" you requested) */
+  .text-card{background:var(--card-bg); border-radius:12px; padding:24px; box-shadow:0 6px 20px rgba(10,30,30,0.06); margin:18px auto; max-width:900px; line-height:1.6}
+
+  /* Services grid */
+  .services-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px; margin-top:26px; align-items:start;}
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.82));
+    border-radius:16px;
+    padding:22px;
+    border:1px solid rgba(74,156,161,0.12);
+    box-shadow: 0 8px 30px rgba(74,156,161,0.08);
+    transform-style: preserve-3d;
+    transition: transform .18s ease, box-shadow .25s ease;
+    will-change: transform;
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* Neon outline & soft glow */
+  .card::after{
+    content:"";
+    position:absolute; inset:0; pointer-events:none; border-radius:16px;
+    box-shadow: 0 0 30px rgba(74,156,161,0.06) inset;
+    transition: box-shadow .25s ease;
+  }
+
+  .card .icon{
+    width:72px; height:72px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:12px;
+    background: linear-gradient(135deg, rgba(74,156,161,0.08), rgba(74,156,161,0.04));
+    box-shadow: 0 8px 18px rgba(74,156,161,0.06);
+  }
+
+  .card h3{margin:0 0 10px 0; color:var(--brand); font-size:20px}
+  .card p{margin:0; color:#123; line-height:1.6}
+
+  /* Hover glow / lift */
+  .card:hover{
+    transform: translateY(-10px) scale(1.02) rotateX(0.6deg);
+    box-shadow: 0 22px 50px rgba(74,156,161,0.18);
+  }
+  .card:hover::after{
+    box-shadow: 0 0 40px rgba(74,156,161,0.28), 0 0 80px rgba(74,156,161,0.14) inset;
+  }
+
+  /* Floating animation (subtle) */
+  @keyframes floatSmall {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .card.float { animation: floatSmall 6s ease-in-out infinite; }
+
+  /* Scroll reveal initial state */
+  .reveal { opacity:0; transform: translateY(18px) scale(.995); transition: all .6s cubic-bezier(.22,.9,.2,1); }
+  .reveal.active { opacity:1; transform: translateY(0) scale(1); }
+
+  /* 3D tilt transform applied by JS */
+  .tilt { will-change: transform; transform-origin: center; }
+
+  /* Contact form */
+  .contact {
+    margin:36px auto 80px auto;
+    max-width:900px;
+    background:var(--card-bg);
+    padding:22px;
+    border-radius:12px;
+    border:1px solid rgba(10,30,30,0.03);
+    box-shadow: 0 8px 30px rgba(8,20,20,0.04);
+  }
+  .contact h3{margin-top:0; color:var(--brand)}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .form-row .full{grid-column:1/-1}
+  input[type="text"], input[type="email"], textarea{
+    width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(10,30,30,0.07); font-size:14px; outline:none;
+    transition: box-shadow .15s, border-color .15s;
+  }
+  input:focus, textarea:focus { box-shadow:0 8px 22px rgba(74,156,161,0.08); border-color:var(--brand) }
+  textarea{min-height:110px; resize:vertical}
+  .btn { background:var(--brand); color:#fff; padding:10px 16px; border-radius:10px; font-weight:700; border:none; cursor:pointer }
+  .note { font-size:13px; color:#345; margin-top:10px }
+
+  /* WhatsApp floating button */
+  .wa-btn{
+    position:fixed; right:18px; bottom:18px; z-index:9999;
+    background:var(--brand); color:#fff; padding:12px 16px; border-radius:999px;
+    display:flex; align-items:center; gap:10px; text-decoration:none; font-weight:800; box-shadow:0 6px 26px rgba(74,156,161,0.28);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .wa-btn img{width:28px;height:28px; filter:brightness(0) invert(1)}
+  .wa-btn:hover{ transform:translateY(-6px) scale(1.03); box-shadow:0 18px 50px rgba(74,156,161,0.34) }
+
+  /* Responsive */
+  @media (max-width:880px){
+    .form-row{grid-template-columns:1fr}
+    header{flex-direction:column; gap:12px; align-items:flex-start}
+    .hero h1{font-size:28px}
+  }
+  @media (max-width:520px){
+    .services-grid{gap:18px}
+    .card .icon{width:56px;height:56px}
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ========= PAGE WRAPPER ========= -->
+<div class="container">
+
+  <!-- Header / Hero -->
+  <header>
+    <div class="logo">PoGo <span style="color:var(--brand)">Services</span></div>
+    <a class="cta" href="https://discord.gg/BnXumb7Yn4" target="_blank" rel="noopener">Join Discord</a>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">Fast Service. Fair Prices. Real Results.</div>
+    <h1>PoGo Services — Boost, Boost, Win</h1>
+    <p class="lead">We deliver safe, fast and reliable Pokémon GO services — raids, XP boosts, stardust, shundo hunts and more. Let us handle the grind so you can enjoy the game.</p>
+    <a class="cta" href="#services">Explore Services</a>
+  </section>
+
+  <!-- Text content block you asked for earlier -->
+  <article class="text-card">
+<img src="pngegg.png" height="50px">
+    <h2 style="margin-top:0">Our Services</h2>
+    <P>We are the fastest-growing and most trusted Pokémon GO service business — with zero ban risk and a reputation backed by over 17,000 verified reviews. At PoGo Services, we provide the cheapest and simplest way to improve your Pokémon GO experience. Whether you’re looking for rare Pokémon, massive Stardust gains, Shundos, event support, or anything else — you pay, we deliver. We literally offer anything imaginable in the game. Even if you don’t see a service listed here, there’s a good chance we still offer it — just ask us in our Discord and we’ll let you know what’s possible.</P>
+    <p style="margin-top:12px"><strong>Why choose us?</strong> 24/7 support, global services and professional handling of every order so your account stays safe.</p>
+  </article>
+
+  <!-- Services grid (cards) -->
+  <section id="services" style="margin-top:20px;">
+    
+
+      <!-- Card 1 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="Premium Accounts">
+       <img src="pokecoin.webp" alt="" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">Cheap Pokecoins</h3>
+        <P>PokéCoins are a must in Pokémon GO — but the in-game prices are extremely high and simply not worth it. Buying from the shop is one of the fastest ways to waste your money.
+</P>
+<Br></Br>
+<P>At PoGo Services, we offer a smarter solution: the coins you need at a fraction of the price. No overpriced bundles, no unnecessary grind — just the easiest way to get what you want.
+
+</P>
+<BR></BR>
+<P>You pay, and your coins are delivered almost instantly, with the utmost care and attention from our team.</P>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="Boosting and Raids">
+        <img src="xp.webp" height="300px"alt="" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">XP Service</h3>
+        <P>Our XP Service is the fastest and most effective way to gain huge amounts of experience in Pokémon GO. The base option already gives you 10 million XP, making it the perfect boost for anyone looking to level up quickly.</P><BR></BR>
+        <P>But that’s not all — while grinding XP, you also receive a range of valuable extras:</P><BR></BR>
+        <ul><li>Any Shinies or Hundos encountered during the grind</li></ul>
+                <ul><li>Between 500,000 and 1,000,000 Stardust</li></ul>
+                        <ul><li>Thousands of candies for every wild Pokémon we catch along the way</li></ul>
+                <ul><li>Optional Meltan Box farming to further boost your XP and candy gain</li></ul>
+                <p>This is the ultimate service if you’re aiming to reach higher levels fast, while also building up your account in every other area — passively, effortlessly, and with incredible value.</p>
+
+
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="Stardust Farming">
+        <img src="day.webp" height="300px" alt="" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">Community Day Services</h3>
+        <p>Our Community Day Service is without a doubt the best value we offer. It’s the most efficient and cost-effective way to fully maximize any Pokémon GO Community Day — even if you can’t play it yourself.</p><br>
+        <p>With this service, you’ll typically receive:
+</p>
+<ul><li>A guaranteed Shundo</li><li>Around 10,000 candies for the featured Pokémon</li><li>Around 100 Shinies</li><li>A huge amount of Stardust</li></ul>
+        <p>Whether you’re collecting, building PvP teams, powering up, or hunting Shundos, this is the ultimate way to get the most out of Community Day with minimal effort and maximum return.
+</p><br>
+<p>This is our most popular service for a reason — it delivers results you simply won’t get on your own.</p>
+    </div>
+
+      <!-- Card 4 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="Community Day">
+       <img src="pngegg.webp" height="300px" alt="" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">Raid Service</h3>
+        <p>Our Raid Service is built for players who want results — fast, efficient, and guaranteed. Whether you’re chasing Legendaries, Megas, or other raid bosses, we make it easy.
+</p><br>
+        <p>We offer two flexible </p>
+        <lu><li>You provide the raid passes — and we do all the raids for you</li><li>We provide the passes — you simply pay, and we take care of the rest</li></lu></p><br>
+        <p>All catches are 100% guaranteed, and we can complete large volumes of raids daily with ease. We’re the fastest and most consistent team in the game — no delays, no stress.</p><br>
+        <p>
+Whether you’re looking to farm a boss hard, build a Shundo collection, or stack resources, this is the most effective service available.</p>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="Raid Service">
+        <img src="png.webp" alt="" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">Gigantamax & Dynamax Service</h3>
+        <p>Gigantamax and Dynamax raids are some of the toughest content in Pokémon GO, especially for players without a large community. These battles often require 30 to 40 people in a lobby just to have a chance at success — making them nearly impossible for solo players.</p>
+        <br>
+        <p>That’s where we come in.</p>
+        <ul><li>You provide the 800 free particles you receive daily — good for multiple Dynamax fights or one Gigantamax fight.</li><li>We supply the particles — allowing us to run as many battles as you need.</li></ul>
+        <p>This is the easiest and most reliable way to complete these powerful raids and get the Pokémon you want — no stress, no wait, no failed attempts.</p>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="GO Fest">
+        <img src="go-fest.webp"alt="go-fest" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">GO Fest & Special Events</h3>
+        <p>GO Fest is Pokémon GO’s biggest and most exclusive event — and the in-person editions take it to another level. Each year, Niantic hosts three in-person GO Fest events around the world: typically one in Europe, one in Asia, and one in America. These events include content that’s impossible to access from anywhere else.</p><br>
+        <p>With our GO Fest In-Person Service, you get everything the event has to offer, without needing to travel or play yourself.</p><br>
+        <p>What’s included:</p>
+        <ul><li> Full grind of all in-person exclusive wild spawns</li><li>Completion of event-exclusive research for unreleased Mythical Pokémon</li><li>Thousands of raids completed across the weekend</li><li>On average, 150+ Shinies every single day during the event</li><li>Tens of millions of XP earned</li><li>Millions of Stardust collected</li><li>Thousands of candies from all catches and spawns</li></ul>
+        <p>This is the most exclusive, high-performance service we offer. Spots are very limited to ensure we give every customer the full attention and quality they deserve.</p><br>
+        <p>If you want the absolute best possible GO Fest experience, this is it.</p>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="GO Fest">
+        <img src="go-fest.webp"alt="go-fest" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">GO Fest Global Services</h3>
+        <p> GO Fest Global is Pokémon GO’s biggest worldwide event — featuring rotating habitats, exclusive wild spawns, boosted shiny rates, powerful raids, and limited-time research. If you want to get the most out of it, you need a serious grind — and that’s exactly what we deliver.
+
+ </p><br>
+        <p>At PoGo Services, we offer full-scale support during GO Fest Global, including:</p><br>
+        <ul><li>Shundo hunting across all rotating GO Fest wild spawns</li><li>75 to 100+ Shinies per day from full-session grinding</li><li>Thousands of raids completed throughout the weekend</li><li>The official GO Fest Global Ticket (from the in-game shop), available through us at a better price</li><li>Millions of Stardust, tens of millions of XP, and thousands of candies collected during the event</li></ul>
+        <p>If you’re ready to get everything GO Fest Global has to offer — without missing out on a single opportunity — this is the service built for you.
+
+</p>
+        
+      </div>
+
+      <!-- Card 8 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="GO Fest">
+        <h3 style="color: #000;">Cheap In-Game Ticket Service</h3>
+       <p>
+    Just like PokéCoins, the prices for in-game tickets in Pokémon GO are 
+    <b>unreasonably high</b> for what you get — whether it’s GO Fest Global, 
+    Community Day tickets, Battle Passes, or other limited-time event access.
+  </p>
+
+  <p>
+    At PoGo Services, we offer these official in-game tickets 
+    <b>at the lowest prices available</b>, making it actually reasonable and 
+    affordable to enjoy your favorite events.
+  </p>
+
+  <p>No inflated shop prices. No hassle.</p>
+
+  <p>
+    <b>You pay — and the ticket is delivered almost instantly</b>, so you can enjoy 
+   the content without overpaying.
+  </p>
+
+  <p>
+    If you're tired of paying absurd prices for basic access, this is the smarter 
+    way to play.
+  </p>
+
+      </div>
+
+      <!-- Card 9 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="GO Fest">
+        <img src="egg.png"alt="egg" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">Egg Hatching Service</h3>
+         <p>
+    Hatching eggs in Pokémon GO takes time, walking, and a whole lot of incubators —
+    especially during events with bonus hatching rewards. But with PoGo Services,
+    you can skip the grind and still get all the rewards.
+  </p>
+
+  <p>
+    We offer a high-speed Egg Hatching Service where we can hatch as many eggs
+    as you want, during events or outside of them.
+  </p>
+
+  <p>You choose how we handle it:</p>
+
+  <ul>
+    <li><b>Supply your own incubators</b>, and we’ll handle the hatching</li>
+    <li>Or let us <b>supply the incubators</b> as part of the service</li>
+  </ul>
+
+  <p>
+    We hatch at a speed most players have never seen — making this the fastest,
+    cheapest, and easiest way to clear your eggs, collect rare Pokémon, earn candies,
+    and stack Stardust.
+  </p>
+
+      </div>
+
+
+
+      <!-- Card 10 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="GO Fest">
+        <img src="sh.png"alt="go-fest" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">Shadow / Rocket Service</h3>
+         <p>
+    Team GO Rocket offers some of the rarest and most powerful Pokémon in the game —
+    but farming them is time-consuming, repetitive, and often frustrating.
+    That’s where we come in.
+  </p>
+
+  <p>With our Shadow / Rocket Service, we can:</p>
+
+  <ul>
+    <li><b>Target specific Rocket Grunts or Leaders</b> to hunt for your desired Shadow Shiny or Shadow Hundo</li>
+    
+    <li><b>Mass farm Rocket battles</b> for level-up quests, research tasks, or resource grinding</li>
+    
+    <li><b>Purify Pokémon in bulk</b> for medals or requirements</li>
+    
+    <li><b>Clear Rocket battles until the daily limit is hit</b> — collecting tons of Stardust, XP, and rewards along the way</li>
+  </ul>
+
+  <p>
+    You keep all <b>Shadow Hundos, Shadow Shinies, and purifiable Hundos</b> we find.
+    Whether you’re chasing a specific Shadow Pokémon, working on a quest,
+    or just want to build a powerful Shadow collection — this service delivers fast,
+    efficient, and guaranteed results.
+  </p>
+      </div>
+
+      <!-- Card 11 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="GO Fest">
+        <img src="levele up.jpg"alt="level-up" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">Level-Up Quests & Research Service</h3>
+       <p>
+    Tired of long, grindy quests blocking your progress in Pokémon GO? Whether it’s level-up tasks,
+    platinum medals, or special research that seems impossible to finish — we’ve got you covered.
+  </p>
+
+  <p>
+    With our Level-Up Quests & Research Service, we can complete <b>almost any task or milestone</b> 
+    in the game quickly and efficiently.
+  </p>
+
+  <p>
+    Instead of buying multiple services separately, all you need to do is 
+    <b>send us screenshots</b> of the quests, medals, or level-up tasks you want completed.
+    We’ll give you the <b>best possible deal</b> and complete everything as 
+    <b>one combined service</b> — saving you time, stress, and money.
+  </p>
+
+  <p>We can handle:</p>
+
+  <ul>
+    <li>Platinum medals</li>
+    <li>Level 40 to 50 progression</li>
+    <li>Timed or special research</li>
+    <li>Tedious tasks that would normally take weeks or months</li>
+  </ul>
+
+  <p>
+    Let us do the grind so you don’t have to — fast, simple, and done right.
+  </p>
+      </div>
+      <!-- Card 12 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="GO Fest">
+        <img src="kecleon.png"alt="kecieon" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">Kecleon Service</h3>
+         <p>
+    Kecleon is one of the most unique and rarest wild spawns in Pokémon GO —
+    often needed for special quests or as a collection goal. It only appears under very
+    specific conditions, making it easy to miss and frustrating to farm.
+  </p>
+
+  <p>
+    With our Kecleon Service, we can:
+  </p>
+
+  <ul>
+    <li><b>Mass farm Kecleons</b> for quests or candy</li>
+    <li>Grind until you catch a <b>Shiny Kecleon</b>, if you’re after the rarest version</li>
+    <li>Help complete your collection or finish research tasks quickly</li>
+  </ul>
+
+  <p>
+    Whether you need one for a quest, want to stock up on candy, or are chasing the shiny,
+    we’ve got the grind covered — fast, reliable, and efficient.
+  </p>
+      </div>
+      <!-- Card 13-->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="GO Fest">
+        <h3 style="color: #000;">Regionals Service</h3>
+         <p>
+    Regional Pokémon are some of the most difficult to collect in Pokémon GO —
+    tied to specific countries or continents, and often completely out of reach
+    unless you’re traveling.
+  </p>
+
+  <p>
+    With our Regionals Service, we can
+    <b>catch any regional Pokémon currently spawning anywhere in the world.</b>
+    Whether you’re filling your Pokédex, collecting for trades, or just want the
+    regionals you’re missing — we’ve got you covered.
+  </p>
+
+  <ul>
+    <li>Available for all currently wild regional Pokémon</li>
+    <li>Great for Pokédex completion or collection purposes</li>
+    <li>Delivered quickly and safely, with no travel needed</li>
+  </ul>
+
+  <p>
+    Why wait for an event or plane ticket when we can deliver what you need today?
+  </p>
+
+      </div>
+
+      <!-- Card 14 -->
+      <div class="card reveal tilt float" data-tilt data-tilt-max="10" aria-label="GO Fest">
+        <img src="ditto.png"alt="ditto" style="width:140px; height:auto; margin-bottom:12px;">
+        <h3 style="color: #000;">Ditto Service</h3>
+       <p>
+    Ditto is one of the trickiest Pokémon to find in Pokémon GO. It hides behind other species,
+    has a low appearance rate, and for many players, can take <b>months or even years</b> to catch —
+    especially when it’s needed for research tasks or level-up quests.
+  </p>
+
+  <p>
+    With our Ditto Service, we take care of that for you.
+  </p>
+
+  <p>
+    If you need a Ditto for a quest or just want one in your collection,
+    we can <b>guarantee a catch the same day you pay.</b>
+    No waiting, no guessing, no frustration.
+  </p>
+
+  <p>
+    Quick, simple, and done.
+  </p>
+
+      </div>
+
+  </section>
+    
+
+  
+
+</div> <!-- container -->
+
+<!-- WhatsApp floating button -->
+<a class="wa-btn" href="https://wa.me/918521854455" target="_blank" rel="noopener">
+  <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="">
+  <span style="font-weight:800; color:#ffffff">Chat</span>
+</a>
+
+<!-- ====== Scripts ====== -->
+<script>
+/* Scroll reveal */
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('active');
+  });
+},{threshold:0.18});
+reveals.forEach(r=>io.observe(r));
+
+/* 3D tilt effect for all elements with data-tilt */
+const tiltEls = document.querySelectorAll('[data-tilt]');
+tiltEls.forEach(el=>{
+  const max = parseFloat(el.getAttribute('data-tilt-max')) || 10;
+  el.addEventListener('mousemove', (ev)=>{
+    const rect = el.getBoundingClientRect();
+    const x = (ev.clientX - rect.left) / rect.width; // 0..1
+    const y = (ev.clientY - rect.top) / rect.height;
+    const tiltY = (x - 0.5) * (max*2); // degrees
+    const tiltX = (0.5 - y) * (max*2);
+    el.style.transform = `perspective(900px) rotateX(${tiltX/2}deg) rotateY(${tiltY/2}deg) translateZ(6px)`;
+  });
+  el.addEventListener('mouseleave', ()=>{ el.style.transform = ''; });
+  el.addEventListener('mouseenter', ()=>{ /* slight boost */ });
+});
+
+/* Contact form handling (demo) */
+function handleSubmit(e){
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const service = document.getElementById('service').value.trim();
+  const message = document.getElementById('message').value.trim();
+
+  if(!name || !email || !service) {
+    alert('Please fill all required fields.');
+    return false;
+  }
+
+  // For production: submit to your backend or email endpoint.
+  // For demo: open mailto (limited) and show success.
+  const subject = encodeURIComponent('Service Request: ' + service);
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+  // Use mailto as fallback:
+  window.location.href = `mailto:info.pogoservice@gmail.com?subject=${subject}&body=${body}`;
+  return false;
+}
+</script>
+
+<!-- FOOTER -->
+<footer style="
+    background:#4a9ca1;
+    color:#fff;
+    padding:60px 20px 20px;
+    margin-top:60px;
+    font-family: 'Georgia', serif;
+">
+
+  <div style="
+      max-width:1200px;
+      margin:auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:60px;
+      justify-content:space-between;
+  ">
+
+    <!-- Discord Column -->
+    <div style="flex:1; min-width:250px;">
+      <h2 style="font-size:32px; margin-bottom:20px;">Discord</h2>
+      <p style="line-height:1.6; font-size:16px;">
+        Our customers say it best.<br>
+        Join our Discord to see real<br>
+        reviews, results, and<br>
+        community feedback.
+      </p>
+
+      <a href="https://discord.gg/BnXumb7Yn4"
+        style="
+          display:inline-block;
+          margin-top:20px;
+          padding:12px 24px;
+          background:#f7d469;
+          color:#000;
+          font-weight:600;
+          border-radius:4px;
+          text-decoration:none;
+        ">
+        Discord
+      </a>
+    </div>
+
+    <!-- Quick Links -->
+    <div style="flex:1; min-width:250px;">
+      <h2 style="font-size:32px; margin-bottom:20px;">Quick<br>Links</h2>
+
+      <ul style="list-style:none; padding:0; margin:0; font-size:17px;">
+        <li style="margin-bottom:10px;"><a href="services.html" style="color:white; text-decoration:none;">⚫ SERVICES</a></li>
+        <li style="margin-bottom:10px;"><a href="about us.html" style="color:white; text-decoration:none;">⚫ REVIEWS</a></li>
+        <li style="margin-bottom:10px;"><a href="about us.html" style="color:white; text-decoration:none;">⚫ INFO</a></li>
+        <li style="margin-bottom:10px;"><a href="faq.html" style="color:white; text-decoration:none;">⚫ FAQ</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Section -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#4a9ca1; font-size:22px; margin-bottom:12px;">Contact</h3>
+      <p style="color:#ffffff; line-height:1.6;">
+        📍 **UK, India** <br>
+        📧 http://pogoservices.com <br>
+        🌐 www.pogoservices.com
+      </p>
+      <div style="margin-top:12px; display:flex; gap:12px;">
+        <a href="https://wa.me/918521854455" target="_blank">
+          <img src="whatsapp.png" alt="WhatsApp" style="width:32px; height:32px;">
+        </a>
+        <a href="#">
+          <img src="instagram.png" alt="Instagram" style="width:32px; height:32px;">
+        </a>
+        <a href="#">
+          <img src="communication.png" alt="Facebook" style="width:32px; height:32px;">
+        </a>
+      </div>
+    </div>
+
+  </div>
+  
+
+    
+</footer>
+<!-- ===========================
+          FOOTER
+=========================== -->
+<footer style="background: #0e1a2b; backdrop-filter: blur(14px); padding: 20px 10px;">
+
+  <!-- Footer Bottom -->
+  <div style="text-align:center; margin-top:40px; color:#ffffff; font-size:14px;">
+    &copy; © 2025 Pogo Services. All rights reserved.
+    <a href="https://wa.me/918521854455" style="color:#fff; text-decoration:underline;">Contact Us</a>  
+      <a href="#privacy" style="color:#fff; text-decoration:underline;">Privacy Policy</a>
+
+ <p style="margin-top:10px;">
+      Powered by: <a href="services.html" style="color:#f7d469; text-decoration:underline;">PoGo Services</a>
+    </p>
+  </div>
+
+</footer>
+
+</body>
+</html>
