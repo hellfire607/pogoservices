@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — PoGo Services</title>
+<link rel="icon" type="image/webp" href="logo.jpg.webp">
+
+
+<style>
+    :root {
+        --accent:#4a9ca1;
+        --text:#222;
+    }
+
+    body{
+        margin:0;
+        padding:0;
+        font-family:Inter, Arial, sans-serif;
+        background:#ffffff;
+        color:var(--text);
+    }
+
+    /* Header */
+    .top{
+        background:var(--accent);
+        padding:18px;
+        text-align:center;
+        color:white;
+        font-size:26px;
+        font-weight:800;
+        letter-spacing:1px;
+    }
+
+    /* Hero Section */
+    .hero-about{
+        padding:60px 20px;
+        text-align:center;
+        max-width:900px;
+        margin:auto;
+    }
+
+    .hero-about h1{
+        font-size:40px;
+        font-weight:800;
+        color:var(--accent);
+    }
+
+    .hero-about p{
+        margin-top:10px;
+        font-size:18px;
+        line-height:1.6;
+        color:#444;
+    }
+
+    .big-img{
+        width:300px;
+        display:block;
+        margin:30px auto;
+        border-radius:16px;
+        box-shadow:0 6px 20px rgba(0,0,0,.15);
+    }
+
+    /* Section Titles */
+    .section-title{
+        text-align:center;
+        font-size:34px;
+        font-weight:800;
+        color:var(--accent);
+        margin-top:50px;
+    }
+
+    /* Glass Cards */
+    .cards{
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+        gap:30px;
+        max-width:1100px;
+        margin:40px auto;
+        padding:0 20px;
+    }
+
+    .card{
+        background:rgba(74,156,161,0.18);
+        border:2px solid rgba(74,156,161,0.6);
+        backdrop-filter:blur(14px);
+        border-radius:18px;
+        padding:28px;
+        text-align:center;
+        box-shadow:0 0 8px rgba(74,156,161,0.35);
+        transition:0.3s ease;
+    }
+
+    .card:hover{
+        transform:translateY(-6px);
+        box-shadow:
+          0 0 12px rgba(74,156,161,0.6),
+          0 0 25px rgba(74,156,161,0.35);
+    }
+
+    .card img{
+        width:85px;
+        height:85px;
+        object-fit:contain;
+        margin-bottom:14px;
+    }
+
+    .card h3{
+        font-size:22px;
+        color:var(--accent);
+        margin-bottom:10px;
+        font-weight:700;
+    }
+
+    .card p{
+        font-size:16px;
+        color:#222;
+        line-height:1.5;
+    }
+
+    /* Footer */
+    footer{
+        text-align:center;
+        padding:20px;
+        background:#f3f8f8;
+        color:#444;
+        margin-top:40px;
+        font-size:14px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="top">About Us</div>
+
+<!-- HERO ABOUT SECTION -->
+<section class="hero-about">
+    <h1>Who We Are</h1>
+    <p>
+        PoGo Services is a trusted Pokémon GO service community helping thousands of trainers worldwide.
+        We deliver fast, safe, and professional boosting services including raids, leveling, stardust farming,
+        shiny hunts, IV boosts, account upgrades and more.
+    </p>
+
+    <img src="i1.webp" height="200px" alt="About Us Image">
+</section>
+
+<!-- OUR MISSION -->
+<h2 class="section-title">Our Mission</h2>
+<section class="cards">
+    <div class="card">
+        <h3>Safe & Secure Service</h3>
+        <p>We prioritize your account safety using trusted methods and trained professionals.</p>
+    </div>
+
+    <div class="card">
+        <h3>Fast Delivery</h3>
+        <p>Most services are completed within minutes to hours depending on the request.</p>
+    </div>
+
+    <div class="card">
+        <h3>24/7 Support</h3>
+        <p>Our global support team is available anytime to help you with updates and questions.</p>
+    </div>
+</section>
+
+<!-- WHAT WE DO -->
+<h2 class="section-title">What We Do</h2>
+
+<section class="cards">
+
+    <div class="card">
+        <img src="level.webp">
+        <h3>Level Boosting</h3>
+        <p>Reach higher levels quickly and safely with trusted account boosters.</p>
+    </div>
+
+    <div class="card">
+        <img src="rad.webp">
+        <h3>Premium Raids</h3>
+        <p>Get access to 5-star raids, Shadow raids, Mega raids anytime.</p>
+    </div>
+
+    <div class="card">
+        <img src="stardust.webp">
+        <h3>Stardust Farming</h3>
+        <p>1M, 3M, 5M and even 10M Stardust packages available.</p>
+    </div>
+
+    <div class="card">
+        <img src="shiny.webp">
+        <h3>Shiny Pokémon Hunts</h3>
+        <p>Guaranteed shiny catches with quick turnaround times.</p>
+    </div>
+
+    <div class="card">
+        <img src="pa.jpg">
+        <h3>Premium Accounts</h3>
+        <p>Buy fully upgraded accounts with rare Pokémon and high IV.</p>
+    </div>
+
+    <div class="card">
+        <img src="100l.jpg">
+        <h3>Account Boosting</h3>
+        <p>We boost IVs, XP, medals, achievements, Mega levels and more.</p>
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer style="
+    background:#4a9ca1;
+    color:#fff;
+    padding:60px 20px 20px;
+    margin-top:60px;
+    font-family: 'Georgia', serif;
+">
+
+  <div style="
+      max-width:1200px;
+      margin:auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:60px;
+      justify-content:space-between;
+  ">
+
+    <!-- Discord Column -->
+    <div style="flex:1; min-width:250px;">
+      <h2 style="font-size:32px; margin-bottom:20px;">Discord</h2>
+      <p style="line-height:1.6; font-size:16px;">
+        Our customers say it best.<br>
+        Join our Discord to see real<br>
+        reviews, results, and<br>
+        community feedback.
+      </p>
+
+      <a href="https://discord.gg/BnXumb7Yn4"
+        style="
+          display:inline-block;
+          margin-top:20px;
+          padding:12px 24px;
+          background:#f7d469;
+          color:#000;
+          font-weight:600;
+          border-radius:4px;
+          text-decoration:none;
+        ">
+        Discord
+      </a>
+    </div>
+
+    <!-- Quick Links -->
+    <div style="flex:1; min-width:250px;">
+      <h2 style="font-size:32px; margin-bottom:20px;">Quick<br>Links</h2>
+
+      <ul style="list-style:none; padding:0; margin:0; font-size:17px;">
+        <li style="margin-bottom:10px;"><a href="services.html" style="color:white; text-decoration:none;">⚫ SERVICES</a></li>
+        <li style="margin-bottom:10px;"><a href="about us.html" style="color:white; text-decoration:none;">⚫ REVIEWS</a></li>
+        <li style="margin-bottom:10px;"><a href="about us.html" style="color:white; text-decoration:none;">⚫ INFO</a></li>
+        <li style="margin-bottom:10px;"><a href="faq.html" style="color:white; text-decoration:none;">⚫ FAQ</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Section -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#4a9ca1; font-size:22px; margin-bottom:12px;">Contact</h3>
+      <p style="color:#ffffff; line-height:1.6;">
+        📍 **UK, India** <br>
+        📧 http://pogoservices.com <br>
+        🌐 www.pogoservices.com
+      </p>
+      <div style="margin-top:12px; display:flex; gap:12px;">
+        <a href="https://wa.me/918521854455" target="_blank">
+          <img src="whatsapp.png" alt="WhatsApp" style="width:32px; height:32px;">
+        </a>
+        <a href="#">
+          <img src="instagram.png" alt="Instagram" style="width:32px; height:32px;">
+        </a>
+        <a href="#">
+          <img src="communication.png" alt="Facebook" style="width:32px; height:32px;">
+        </a>
+      </div>
+    </div>
+
+  </div>
+  
+
+    
+</footer>
+<!-- ===========================
+          FOOTER
+=========================== -->
+<footer style="background: #0e1a2b; backdrop-filter: blur(14px); padding: 20px 10px;">
+
+  <!-- Footer Bottom -->
+  <div style="text-align:center; margin-top:40px; color:#ffffff; font-size:14px;">
+    &copy; © 2025 Pogo Services. All rights reserved.
+    <a href="https://wa.me/918521854455" style="color:#fff; text-decoration:underline;">Contact Us</a>  
+      <a href="#privacy" style="color:#fff; text-decoration:underline;">Privacy Policy</a>
+
+ <p style="margin-top:10px;">
+      Powered by: <a href="services.html" style="color:#f7d469; text-decoration:underline;">PoGo Services</a>
+    </p>
+  </div>
+
+</footer>
+
+</body>
+</html>

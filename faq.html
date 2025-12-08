@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ - PoGo Services</title>
+<link rel="icon" type="image/webp" href="logo.jpg.webp">
+
+<style>
+    body{
+        margin:0;
+        padding:0;
+        font-family:Arial, sans-serif;
+        background:#f4f7f8;
+        color:#222;
+    }
+    header{
+        background:#4a9ca1;
+        padding:20px;
+        text-align:center;
+        color:white;
+        font-size:28px;
+        font-weight:700;
+    }
+    .wrapper{
+        max-width:900px;
+        margin:auto;
+        padding:20px;
+    }
+    .faq-box{
+        background:white;
+        margin-bottom:15px;
+        border-radius:12px;
+        border:1px solid #d4e5e6;
+        overflow:hidden;
+    }
+    .faq-q{
+        padding:18px;
+        background:#e8f3f4;
+        cursor:pointer;
+        font-weight:600;
+        font-size:18px;
+    }
+    .faq-a{
+        padding:18px;
+        background:#e8f3f4;
+        display:none;
+        font-size:16px;
+        line-height:1.4;
+    }
+
+    /* Simple JS toggle using CSS trick */
+    input[type="checkbox"]{ display:none; }
+    input[type="checkbox"]:checked + .faq-q + .faq-a{ display:block; }
+
+    /* Responsive */
+    @media(max-width:600px){
+        header{ font-size:24px; }
+        .faq-q{ font-size:16px; padding:15px; }
+        .faq-a{ font-size:15px; padding:15px; }
+    }
+    .faq-box:hover{
+        box-shadow:0 0 18px rgba(74,156,161,0.55);
+        transition:0.3s ease;
+        transform:translateY(-2px);
+    }
+</style>
+</head>
+<body>
+
+<header>Frequently Asked Questions</header>
+
+<h1 style="text-align: center;font-size: 30px;font-family:Roboto;background-color: #4a9ca1;color: #ffffff;"> Click Qustion to Read Answer </h1>
+
+<div class="wrapper">
+    <!-- FAQ 1 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f1">
+        <label class="faq-q" for="f1">Is PoGo Services safe to use?</label>
+        <div class="faq-a">Yes, our services are completely safe. All tasks are done manually by our trained team. We never use bots, cheats, or any unsafe methods. Your account remains secure at all times.</div>
+    </div>
+
+    <!-- FAQ 2 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f2">
+        <label class="faq-q" for="f2">How fast will I receive my service?</label>
+        <div class="faq-a">Most services are delivered instantly. For larger requests, such as leveling or special tasks, the time may vary from 10 minutes to a few hours. You will always be updated about progress.</div>
+    </div>
+
+    <!-- FAQ 3 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f3">
+        <label class="faq-q" for="f3">Do you offer refunds?</label>
+        <div class="faq-a">Yes. If your service cannot be completed for any reason, you will receive a 100% refund. No questions asked. Customer satisfaction is our top priority.</div>
+    </div>
+
+    <!-- FAQ 4 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f4">
+        <label class="faq-q" for="f4">How do I contact support?</label>
+        <div class="faq-a">You can contact us anytime through WhatsApp, Instagram DM, or Email. Our support team is available 24/7 and usually replies within minutes.</div>
+    </div>
+
+    <!-- FAQ 5 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f5">
+        <label class="faq-q" for="f5">Are my account details safe?</label>
+        <div class="faq-a">Yes, absolutely. We follow strict privacy and security rules. Your login details are never shared, saved, or misused. Only one verified team member handles your request securely.</div>
+    </div>
+
+    <!-- FAQ 6 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f6">
+        <label class="faq-q" for="f6">Do you provide event support?</label>
+        <div class="faq-a">Yes! We help with special Pokémon GO events, GO Fest, Community Days, and exclusive research tasks. You will receive full assistance to complete all rewards on time.</div>
+    </div>
+
+    <!-- FAQ 7 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f7">
+        <label class="faq-q" for="f7">How do payments work?</label>
+        <div class="faq-a">Payments can be made through UPI, Paytm, Google Pay, and other supported methods. Once payment is confirmed, our team immediately begins your service.</div>
+    </div>
+
+
+
+    <!-- FAQ 1 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f1">
+        <label class="faq-q" for="f1">Is PoGo Services safe to use?</label>
+        <div class="faq-a">Yes, all services are 100% safe, manual, and handled by trusted professionals.</div>
+    </div>
+
+    <!-- FAQ 2 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f2">
+        <label class="faq-q" for="f2">How fast will I receive my service? </label>
+        <div class="faq-a">Most services are completed instantly or within a few hours depending on request type.</div>
+    </div>
+
+    <!-- FAQ 3 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f3">
+        <label class="faq-q" for="f3">Do you offer refunds?</label>
+        <div class="faq-a">Yes, if your service cannot be completed, you receive a full refund immediately.</div>
+    </div>
+
+    <!-- FAQ 4 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f4">
+        <label class="faq-q" for="f4">How do I contact support?</label>
+        <div class="faq-a">You can contact us through WhatsApp, Instagram or Email 24/7.</div>
+    </div>
+
+    <!-- FAQ 5 -->
+    <div class="faq-box">
+        <input type="checkbox" id="f5">
+        <label class="faq-q" for="f5">Are my account details safe?</label>
+        <div class="faq-a">Your account details are never shared and are secured with strict privacy rules.</div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer style="
+    background:#4a9ca1;
+    color:#fff;
+    padding:60px 20px 20px;
+    margin-top:60px;
+    font-family: 'Georgia', serif;
+">
+
+  <div style="
+      max-width:1200px;
+      margin:auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:60px;
+      justify-content:space-between;
+  ">
+
+    <!-- Discord Column -->
+    <div style="flex:1; min-width:250px;">
+      <h2 style="font-size:32px; margin-bottom:20px;">Discord</h2>
+      <p style="line-height:1.6; font-size:16px;">
+        Our customers say it best.<br>
+        Join our Discord to see real<br>
+        reviews, results, and<br>
+        community feedback.
+      </p>
+
+      <a href="https://discord.gg/BnXumb7Yn4"
+        style="
+          display:inline-block;
+          margin-top:20px;
+          padding:12px 24px;
+          background:#f7d469;
+          color:#000;
+          font-weight:600;
+          border-radius:4px;
+          text-decoration:none;
+        ">
+        Discord
+      </a>
+    </div>
+
+    <!-- Quick Links -->
+    <div style="flex:1; min-width:250px;">
+      <h2 style="font-size:32px; margin-bottom:20px;">Quick<br>Links</h2>
+
+      <ul style="list-style:none; padding:0; margin:0; font-size:17px;">
+        <li style="margin-bottom:10px;"><a href="services.html" style="color:white; text-decoration:none;">⚫ SERVICES</a></li>
+        <li style="margin-bottom:10px;"><a href="about us.html" style="color:white; text-decoration:none;">⚫ REVIEWS</a></li>
+        <li style="margin-bottom:10px;"><a href="about us.html" style="color:white; text-decoration:none;">⚫ INFO</a></li>
+        <li style="margin-bottom:10px;"><a href="faq.html" style="color:white; text-decoration:none;">⚫ FAQ</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Section -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#4a9ca1; font-size:22px; margin-bottom:12px;">Contact</h3>
+      <p style="color:#ffffff; line-height:1.6;">
+        📍 **UK, India** <br>
+        📧 http://pogoservices.com <br>
+        🌐 www.pogoservices.com
+      </p>
+      <div style="margin-top:12px; display:flex; gap:12px;">
+        <a href="https://wa.me/918521854455" target="_blank">
+          <img src="whatsapp.png" alt="WhatsApp" style="width:32px; height:32px;">
+        </a>
+        <a href="#">
+          <img src="instagram.png" alt="Instagram" style="width:32px; height:32px;">
+        </a>
+        <a href="#">
+          <img src="communication.png" alt="Facebook" style="width:32px; height:32px;">
+        </a>
+      </div>
+    </div>
+
+  </div>
+  
+
+    
+</footer>
+<!-- ===========================
+          FOOTER
+=========================== -->
+<footer style="background: #0e1a2b; backdrop-filter: blur(14px); padding: 20px 10px;">
+
+  <!-- Footer Bottom -->
+  <div style="text-align:center; margin-top:40px; color:#ffffff; font-size:14px;">
+    &copy; © 2025 Pogo Services. All rights reserved.
+    <a href="https://wa.me/918521854455" style="color:#fff; text-decoration:underline;">Contact Us</a>  
+      <a href="#privacy" style="color:#fff; text-decoration:underline;">Privacy Policy</a>
+
+ <p style="margin-top:10px;">
+      Powered by: <a href="services.html" style="color:#f7d469; text-decoration:underline;">PoGo Services</a>
+    </p>
+  </div>
+
+</footer>
+
+</body>
+</html>
